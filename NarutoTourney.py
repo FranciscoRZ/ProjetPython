@@ -6,7 +6,7 @@ Created on Thu Mar 22 14:00:52 2018
 @author: Cisco
 """
 
-import TourneyFunctions
+import TourneyFunctions as TF
 
 # Character initialization
 
@@ -167,5 +167,9 @@ Kiba.opponents = [genin for genin in participants if genin != Kiba.name]
 Rin.opponents = [genin for genin in participants if genin != Rin.name]
 Kago.opponents = [genin for genin in participants if genin != Kago.name]    
 
+Tourney = TF.InitializeTree(participants)
+
+# boucle définissant chaque round
+while len(Tourney) > 1: 
 
 
