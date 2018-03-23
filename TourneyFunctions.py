@@ -48,10 +48,7 @@ def combat(genin1, genin2):
         # on change de tour
         attaquant = int(not(attaquant))
                 
-    for genin in combattants:
-        if genin.life != 0: 
-            return genin
-        
+    return combattans     
 
 # fonction définissant l'arbre du tournoi
     # l'arbre sera en fait une liste, qui commencera avec tous les participants et
