@@ -64,10 +64,18 @@ def InitializeTree(participants):
 
 # fonction enlevant les perdants de l'arbre du tournoi à chaque round
 def ActualizeTree(Tourney):
-    for genin in Tourney:
-        if genin.life <= 0:
-            Tourney.remove(genin)
-    return
+    # for genin in Tourney:
+    #    if genin.life <= 0:
+    #        Tourney.remove(genin)
+    #return Tourney
+    n = len(Tourney)
+    perdants = []
+    for i in range(n):
+        if Tourney[i].life <= 0:
+            perdants.append(Tourney[i])
+    for genin in perdants:
+        Tourney.remove(genin)
+    return Tourney
 
 # fonction nettoyant la console
 def ClearScreen():
@@ -120,7 +128,7 @@ def InitTourney(participants):
     for genin in participants:
         print(genin.name)
     print("\n")
-    print("Le tournoi se déroule en 5 rounds. A chaque round les genin s'affrontent deux à deux, à la mort ou à l'épuisement.")
+    print("Le tournoi se déroule en 4 rounds. A chaque round les genin s'affrontent deux à deux, à la mort ou à l'épuisement.")
     print("A la fin un seul champion sera déclaré.")
     print("Etes-vous prêts ? (Tapper Enter pour commencer la simulation)")
     input()
@@ -136,3 +144,4 @@ def SplitTourney(Tourney):
     while k < len(Tourney):
         combats.append([Tourney[k], Tourney[k + 1]])
         k += 2
+    return combats
