@@ -200,98 +200,100 @@ TourneyRound = 1
 # boucle définissant chaque round
 while len(Tourney) > 1: 
     # boucle pour le round (sur les participants)
-    if TourneyRound < 5:
-        print("Round %s !" % TourneyRound)
+    if TourneyRound < 4:
+        print("Round %s ! \n" % TourneyRound)
     else:
-        print("Combat final !")
+        print("Combat final ! \n")
         time.sleep(5)
     
-    n = len(Tourney)
-    for i in range(n - 1):
-        if i % 2 == 0 and i < n  - 1: # On prend les participants deux à deux
-            genin1 = Tourney[i]
-            genin2 = Tourney[i+1]
-            print("%s vs %s ! \n" %(genin1.name, genin2.name))
-            # boucle combat (while genin1.life > 0 and genin2.life > 0)
-            attaquant = rd.randint(0,1)
-            combattants = [genin1, genin2]
-            degat = 0
-            esquive = False
-            ind_crit = False
-            outputCombat = [combattants, degat, esquive, attaquant, ind_crit]
-            
-            life1 = genin1.life
-            life2 = genin2.life
-            
-            # Initialisation de l'affiche
-            genin1.x_coord = 2
-            genin1.y_coord = 3
-            
-            genin2.x_coord = 3
-            genin2.y_coord = 3
-            
-            TF.Show(genin1, genin2)
-            
-            # combat
-            while genin1.life > 0 and genin2.life > 0:
-                # dégat / esquive
-                attaquant = outputCombat[3]
-                #outputCombat = TF.combat(genin1, genin2, attaquant)
-                time.sleep(0.5)
+    combats = TF.SplitTourney(Tourney)
+    
+    n = len(combats)
+    for i in range(n):
+        
+        compteur_combats = 1
+        
+        genin1 = combats[i][0]
+        genin2 = combats[i][1]
+        print("%s (%s)vs %s (%s) ! \n" %(genin1.name, genin1.symbol.strip(" "), genin2.name, genin2.symbol.strip(" ")))
+        # boucle combat (while genin1.life > 0 and genin2.life > 0)
+        attaquant = rd.randint(0,1)
+        combattants = [genin1, genin2]
+        degat = 0
+        esquive = False
+        ind_crit = False
+        outputCombat = [combattants, degat, esquive, attaquant, ind_crit]
+        
+        life1 = genin1.life
+        life2 = genin2.life
+        
+        # Initialisation de l'affiche
+        genin1.x_coord = 2
+        genin1.y_coord = 3
+        
+        genin2.x_coord = 3
+        genin2.y_coord = 3
+        
+        TF.Show(genin1, genin2)
+        
+        # combat
+        while genin1.life > 0 and genin2.life > 0:
+            # dégat / esquive
+            attaquant = outputCombat[3]
+            #outputCombat = TF.combat(genin1, genin2, attaquant)
+            time.sleep(0.5)
 
-                outputCombat = TF.combat(genin1, genin2, attaquant)
-                
-                if outputCombat[2] == True:
-                    print("%s a esquivé ! \n" % outputCombat[0][int(not(attaquant))].name)
-                    # Afficher
-                    possibilties = [[outputCombat[0][int(attaquant)].x_coord + 1, outputCombat[0][int(attaquant)].y_coord],
-                                    [outputCombat[0][int(attaquant)].x_coord, outputCombat[0][int(attaquant)].y_coord - 1],
-                                    [outputCombat[0][int(attaquant)].x_coord, outputCombat[0][int(attaquant)].y_coord + 1]]
+            outputCombat = TF.combat(genin1, genin2, attaquant)
+            
+            if outputCombat[2] == True:
+                print("%s a esquivé ! \n" % outputCombat[0][int(not(attaquant))].name)
+                # Afficher
+                possibilties = [[outputCombat[0][int(attaquant)].x_coord + 1, outputCombat[0][int(attaquant)].y_coord],
+                                [outputCombat[0][int(attaquant)].x_coord, outputCombat[0][int(attaquant)].y_coord - 1],
+                                [outputCombat[0][int(attaquant)].x_coord, outputCombat[0][int(attaquant)].y_coord + 1]]
+                index = rd.randint(0,2)
+                while possibilties[index][0] < 0 or possibilties[index][0] > 6 or possibilties[index][1] < 0 or possibilties[index][1] > 6:
                     index = rd.randint(0,2)
-                    while possibilties[index][0] < 0 or possibilties[index][0] > 6 or possibilties[index][1] < 0 or possibilties[index][1] > 6:
-                        index = rd.randint(0,2)
-                    
-                    outputCombat[0][int(not(attaquant))].x_coord = possibilties[index][0]
-                    outputCombat[0][int(not(attaquant))].y_coord = possibilties[index][1]
-                    
-                    TF.Show(outputCombat[0][int(attaquant)], outputCombat[0][int(not(attaquant))])
-                    
-                else:
-                    if outputCombat[4] == False:
-                        print("%s a infligé %d de dégat !" %(outputCombat[0][int(attaquant)].name, outputCombat[1])) 
-                    else:
-                        print("%s a porté un coup critique ! Dégat : %d" %(outputCombat[0][int(attaquant)].name, outputCombat[1]))
-   
-                        
-            #if genin1.life <= 0:
-            #    print("Le gagnant du combat est %s !" % genin2.name)
-            #    print("\n \n \n")
-            #    genin2.life = life2
-            #    Tourney.remove(genin1)
-            #elif genin2.life <= 0:
-            #    print("Le gagnant du combat est %s !" % genin1.name)
-            #    print("\n \n \n")
-            #    genin1.life = life1
-            #    Tourney.remove(genin2)
-             
-            if genin1.life <= 0:
-                # genin2 a gagné le combat
-                genin2.score += 1
-                print("Le gagnant est %s !" % genin2.name )
-                print("\n \n \n")
-                genin2.life = life2
-
-            elif genin2.life <= 0:
-                # genin1 a gangé le combat
-                genin1.score += 1
-                print("Le gagnant est %s !" %genin1.name)
-                print("\n \n \n")
-                genin1.life = life1
                 
-            # nettoyage après combat console
-            TF.ClearScreen()
+                outputCombat[0][int(not(attaquant))].x_coord = possibilties[index][0]
+                outputCombat[0][int(not(attaquant))].y_coord = possibilties[index][1]
+                
+                TF.Show(outputCombat[0][int(attaquant)], outputCombat[0][int(not(attaquant))])
+                
+            else:
+                if outputCombat[4] == False:
+                    print("%s a infligé %d de dégat !" %(outputCombat[0][int(attaquant)].name, outputCombat[1])) 
+                else:
+                    print("%s a porté un coup critique ! Dégat : %d" %(outputCombat[0][int(attaquant)].name, outputCombat[1]))
+         
+        if genin1.life <= 0 and genin2.life > 0:
+            # genin2 a gagné le combat
+            genin2.score += 1
+            print("Le gagnant est %s !" % genin2.name )
+            print("\n \n")
+            genin2.life = life2
+
+        elif genin2.life <= 0 and genin1.life > 0:
+            # genin1 a gangé le combat
+            genin1.score += 1
+            print("Le gagnant est %s !" %genin1.name)
+            print("\n \n")
+            genin1.life = life1
+        
+        else:
+            # ils se sont entretués
+            print("Les deux genin sont morts !")
+            print("\n \n")
+        
+        print("Fin du combat")
+        print("Continuer ?")
+        input()
+        
+        # nettoyage après combat console
+        TF.ClearScreen()
             
-    TF.ActualizeTree(Tourney)
+    Tourney = TF.ActualizeTree(Tourney)
+    
     print("Fin du Round %s !" %TourneyRound )
     print("Les gagnants sont :")
     gagnants = []
