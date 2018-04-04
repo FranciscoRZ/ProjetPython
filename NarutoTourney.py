@@ -7,7 +7,9 @@ Created on Thu Mar 22 14:00:52 2018
 """
 
 import os
-os.chdir("/Users/Cisco/Desktop/M1 EIF/S2/Intro Python/ProjetPython")
+# os.chdir("/Users/Cisco/Desktop/M1 EIF/S2/Intro Python/ProjetPython")
+
+os.chdir(os.getcwd())
 
 import TourneyFunctions as TF
 import random as rd
@@ -22,7 +24,6 @@ class Genin():
         self.attack = None
         self.defense = None
         self.agility = None
-        self.opponents = None
         self.score = 0   
         self.x_coord = 0
         self.y_coord = 0
@@ -174,28 +175,13 @@ Kago.life = 30
 Kago.symbol = "=3"
 participants.append(Kago)
 
-Naruto.opponents = [genin for genin in participants if genin.name != Naruto.name]
-Sasuke.opponents = [genin for genin in participants if genin.name != Sasuke.name]
-Shikamaru.opponents = [genin for genin in participants if genin.name != Shikamaru.name]
-Sakura.opponents = [genin for genin in participants if genin.name != Sakura.name]
-Gaara.opponents = [genin for genin in participants if genin.name != Gaara.name]
-Choji.opponents = [genin for genin in participants if genin.name != Choji.name]
-Tenten.opponents = [genin for genin in participants if genin.name != Tenten.name]
-Neji.opponents = [genin for genin in participants if genin.name != Neji.name]
-RockLee.opponents = [genin for genin in participants if genin.name != RockLee.name]
-Kankuro.opponents = [genin for genin in participants if genin.name != Kankuro.name]
-Ino.opponents = [genin for genin in participants if genin.name != Ino.name]
-Shino.opponents = [genin for genin in participants if genin.name != Shino.name]
-Hinata.opponents = [genin for genin in participants if genin.name != Hinata.name]
-Kiba.opponents = [genin for genin in participants if genin.name != Kiba.name]
-Rin.opponents = [genin for genin in participants if genin.name != Rin.name]
-Kago.opponents = [genin for genin in participants if genin.name != Kago.name]    
-
 Tourney = TF.InitializeTree(participants)
 
 TF.InitTourney(participants)
 
 TourneyRound = 1
+
+Arbre = []
 
 # boucle définissant chaque round
 while len(Tourney) > 1: 
@@ -215,7 +201,7 @@ while len(Tourney) > 1:
         
         genin1 = combats[i][0]
         genin2 = combats[i][1]
-        print("%s (%s)vs %s (%s) ! \n" %(genin1.name, genin1.symbol.strip(" "), genin2.name, genin2.symbol.strip(" ")))
+        print("%s (%s) vs %s (%s) ! \n" %(genin1.name, genin1.symbol.strip(" "), genin2.name, genin2.symbol.strip(" ")))
         # boucle combat (while genin1.life > 0 and genin2.life > 0)
         attaquant = rd.randint(0,1)
         combattants = [genin1, genin2]
@@ -300,6 +286,7 @@ while len(Tourney) > 1:
     for genin in Tourney:
         gagnants.append(genin.name)
     print(gagnants)
+    Arbre.append(gagnants)
     input("Tapper Enter pour contineur...")
     n = len(Tourney)
     
@@ -307,6 +294,11 @@ while len(Tourney) > 1:
     TourneyRound += 1
 
 print("Le champion est %s !" %Tourney[0].name)
+
+print("Arbre final du tournoi : \n")
+for Round in Arbre:
+    print(Round)
+    
 
         
 
