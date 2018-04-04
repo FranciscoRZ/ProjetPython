@@ -64,10 +64,6 @@ def InitializeTree(participants):
 
 # fonction enlevant les perdants de l'arbre du tournoi à chaque round
 def ActualizeTree(Tourney):
-    # for genin in Tourney:
-    #    if genin.life <= 0:
-    #        Tourney.remove(genin)
-    #return Tourney
     n = len(Tourney)
     perdants = []
     for i in range(n):
@@ -110,7 +106,7 @@ def Show(genin1, genin2):
     
     gb[y1][x1] = genin1.symbol
     gb[y2][x2] = genin2.symbol
-    
+
     for x in gb:
         print(x)
     print("\n")
